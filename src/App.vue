@@ -2,8 +2,9 @@
   <div id="app">
     <app-header></app-header>
     <navigation></navigation>
-    <router-view></router-view>
+    <router-view :workout-list='workoutList' :workoutPlan='plan'></router-view>
   </div>
+  
 </template>
 
 <script>
@@ -12,6 +13,7 @@ import navigation from './components/navigation.vue'
 import appHeader from './components/header.vue'
 import createWorkout from './components/views/createWorkout.vue'
 import selectWorkout from './components/views/selectWorkout.vue'
+import doWorkout from './components/views/doWorkout.vue'
 
 
 
@@ -21,8 +23,31 @@ export default {
   components: {
     welcome,
     navigation,
-    appHeader
+    appHeader,
+    createWorkout,
+    selectWorkout,
+    doWorkout
+  },
+    data(){
+    return{
+      workoutList: [],
+      plan:[]
+
+    }
+  },  
+  mounted(){
+      window.EventBus.$on('workoutCreated', (workouts) => {
+          this.workoutList.push(workouts);
+
+        
+      });
+      window.EventBus.$on('workoutStarted', (plan) => {
+      this.plan = plan;
+      
+    });
   }
+
+
 
 }
 </script>

@@ -72,10 +72,11 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style  scoped lang='scss'>
 .createWorkout{
-    margin-top: 60px;
+  margin-top: 60px;
   margin-left: 75px;
   width: calc(100vw - 75px);
   height: calc(100vh - 60px);
+  background: #333545;
     
     .creatorExcersise{
         width: 100%;
@@ -146,6 +147,12 @@ export default {
         
     }
 }
-
+@media only screen and (max-width: 991px) {
+  .createWorkout{
+    margin-left: 0;
+    width: 100vw;
+    
+  }
+  }
 </style>
 
