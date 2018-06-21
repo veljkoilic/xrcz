@@ -3,6 +3,7 @@
       <h1>CREATE A WORKOUT</h1>
 
       <div class="creatorExercise">
+          <input type="text" placeholder="Workout name" v-model="newWorkoutName">
           <input type="text" placeholder="Exercise name" v-model="newName">
           <input type="number" placeholder="Sets" v-model="newSets">
           <input type="number" placeholder="Reps" v-model="newReps">
@@ -29,10 +30,11 @@ export default {
   data(){
       return{
           workouts:[
-              {name:"Push-ups", sets: 3, reps: 5, active: false},
-              {name:"Crunches", sets: 2, reps: 15, active: false},
-              {name:"Squats", sets: 4, reps: 5, active: false}
+              {workoutName: "My workout", name:"Push-ups", sets: 3, reps: 5, active: false},
+              {workoutName: "My workout", name:"Crunches", sets: 2, reps: 15, active: false},
+              {workoutName: "My workout", name:"Squats", sets: 4, reps: 5, active: false}
             ],
+          newWorkoutName: "",
           newName: "",
           newSets: "",
           newReps: ""
@@ -50,7 +52,7 @@ export default {
           }
           
           else{
-            this.workouts.push({name: this.newName, sets: parseInt(this.newSets), reps: parseInt(this.newReps), active: false});
+            this.workouts.push({workoutName: this.newWorkoutName, name: this.newName, sets: parseInt(this.newSets), reps: parseInt(this.newReps), active: false});
             this.newName = ""
             this.newSets = 0    
             this.newReps = 0

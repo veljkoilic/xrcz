@@ -4,11 +4,11 @@
         <li v-bind:key="exercise.name
         " v-for="exercise in workoutPlan"
         v-if="exercise.active == true">
-        NAME: {{exercise.name}} REPS: {{exercise.reps}} SETS: {{exercise.sets}}  
+        <span class="exerciseName">{{exercise.name}}</span>  <span class="number">{{exercise.reps}}</span> <span> REPS LEFT</span> <span class="number">{{exercise.sets}}</span> <span> SETS LEFT</span> 
         </li>
       </ul>
       <h1 v-text="workoutDoneMSG"></h1>
-      <button @click="clickToStart()">START</button>
+      <button @click="clickToStart()"><i class="fa" :class="[{ 'fa-stop': buttonClicked }, 'fa-play']"></i></button>
   </div>
 </template>
 
@@ -21,14 +21,17 @@ export default {
   },
   data(){
     return{
-      workoutDoneMSG : ''
+      workoutDoneMSG : '',
+      buttonClicked: false
 
     }
-  },
+  },  
   methods:{
     clickToStart(){
+        this.changeButtonToPause(this.WorkoutCountdown)
       var i = 0;   
-      var originalReps = this.workoutPlan[i].reps   
+      var originalReps = this.workoutPlan[i].reps  
+
       const WorkoutCountdown = setInterval(()=> {
         if(i < this.workoutPlan.length){
           this.workoutPlan[i].active = true;
@@ -58,7 +61,16 @@ export default {
           
 
         }
-      },100);
+      },2000);
+    },
+    changeButtonToPause(WorkoutCountdown){
+        if(this.buttonClicked == true){
+            this.buttonClicked = false;
+            clearInterval(WorkoutCountdown);
+            return
+        }
+        this.buttonClicked = true;
+
     }
   }
 }
@@ -67,15 +79,38 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style  scoped lang='scss'>
 .doWorkout{
+    margin-top: 60px;
+    margin-left: 75px;
+    width: calc(100vw - 75px);
+    height: calc(100vh - 60px);
+    background: #333545;
   h1{
     color:green;
+    position: absolute;
+    left: 50%;
+    top: 30%;
+    transform: translateX(-50%);
+    font-size: 60px;
   }
   ul{
-    color: #000;
+    color: #fff;
     list-style-type: none;
     padding: 0;
     li{
-      font-size: 30px;
+        font-size: 40px;
+        span{
+            display: block;
+            text-align: center;
+        }
+         //   OVDE
+        .exerciseName{
+            color:#2490E9;
+            font-size: 90px;
+            margin-bottom: 40px;  
+        }
+        .number{
+            font-size: 80px;
+        }
     }
   }
   button{
@@ -83,9 +118,17 @@ export default {
     bottom: 200px;
     left: 50%;
     transform: translateX(-50%);
-    background: gray;
     color: #fff;
     border: none;
+    font-size: 50px;
+    background: transparent;
   }
 }
+@media only screen and (max-width: 991px) {
+  .doWorkout{
+    margin-left: 0;
+    width: 100vw;
+    
+  }
+  }
 </style>
