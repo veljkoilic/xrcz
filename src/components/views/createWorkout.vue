@@ -2,24 +2,25 @@
   <div class="createWorkout">
       <h1>CREATE A WORKOUT</h1>
 
-      <div class="creatorExercise">
-          <input type="text" placeholder="Workout name" v-model="newWorkoutName">
-          <input type="text" placeholder="Exercise name" v-model="newName">
-          <input type="number" placeholder="Sets" v-model="newSets">
-          <input type="number" placeholder="Reps" v-model="newReps">
-          <button class="fas fa-plus-circle" @click="validateExerciseAndAdd()"></button>
+      <div class="creatorExercise col-10 offset-1">
+          <input class="col-sm-2" type="text" placeholder="Workout name" v-model="newWorkoutName">
+          <input class="col-sm-2" type="text" placeholder="Exercise name" v-model="newName">
+          <input class="col-sm-2" type="number" placeholder="Sets" v-model="newSets">
+          <input class="col-sm-2" type="number" placeholder="Reps" v-model="newReps">
+          <button class="col-sm-2 fas fa-plus-circle" @click="validateExerciseAndAdd()"></button>
       </div>
 
-    <ul>
+    <ul class="container-fluid">
         <li v-bind:key="workout.name"
-        v-for="workout in workouts">
-        <span class="eName">{{workout.name}} - </span>
-        <span class="eSets"> {{workout.sets}} sets </span>
-        <span class="eReps"> {{workout.reps}} reps </span> 
-        <span @click="removeExercise(workout)">X</span> </li>
+        v-for="workout in workouts"
+        class="col-sm-8 offset-2">
+        <span class="eName col-3">{{workout.name}}</span>
+        <span class="eSets col-3"> {{workout.sets}} sets </span>
+        <span class="eReps col-3"> {{workout.reps}} reps </span> 
+        <i class="smallX far fa-times-circle" @click="removeExercise(workout)"></i> </li>
     </ul>
 
-    <button class="createButton" @click="workoutCreate()">Create Workout!</button>
+    <button id="createButton" class="col-2 offset-5" @click="workoutCreate()">Create Workout!</button>
     
   </div>
 </template>
@@ -37,7 +38,8 @@ export default {
           newWorkoutName: "",
           newName: "",
           newSets: "",
-          newReps: ""
+          newReps: "",
+          
         }
     },
   methods:{
@@ -74,15 +76,19 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style  scoped lang='scss'>
 .createWorkout{
+    overflow: hidden;
   margin-top: 60px;
   margin-left: 75px;
   width: calc(100vw - 75px);
   height: calc(100vh - 60px);
   background: #333545;
+  text-align: center;
+  padding-top: 50px;
     
     .creatorExcersise{
         width: 100%;
-        
+        display: flex;
+        justify-content: space-between;
         
     }
     h1{
@@ -91,40 +97,58 @@ export default {
         margin: 20px 0 60px 0;
     }
     input{
+        color: #fff;
+        font-size: 25px;
         display: inline-block;
+        background: rgba($color: #fff, $alpha: .1);
+        border: none;
+        &::placeholder{
+            color: #fff;
+
+        }
+
     }
     input[type="text"]{
-        width: 150px;
         text-align: center;
 
     }
     
     input[type="number"]{
-        width: 60px;
         text-align: center;
         
     }
     button{
-        background: transparent;
         border: 0;
-        color: #C3F73A;
-        font-size: 23px;
+        color: #2490E9;
+        background: #333545;
+        font-size: 30px;
         position: relative;
-        top: 5px;
+        top: 2px;
+        padding: 5px;
+            -webkit-box-shadow: 0px 0px 34px 2px rgba(0,0,0,0.75);
+            -moz-box-shadow: 10px 0px 34px 2px rgba(0,0,0,0.75);
+            box-shadow: 10px 0px 34px 2px rgba(0,0,0,0.75);
 
     }
     
     ul{
+        overflow: scroll;
         padding: 0;
         margin: 50px 0 0 0;
         list-style-type: none;
+        height: 400px;
         li{
-            color: #C3F73A;
-            margin-bottom: 5px;
-            background: #403D39;
+            padding: 30px 20px;
+            margin-top: 20px;
+            background: #333545;
             text-align: left;
+            -webkit-box-shadow: 0px 0px 34px 2px rgba(0,0,0,0.75);
+            -moz-box-shadow: 0px 0px 34px 2px rgba(0,0,0,0.75);
+            box-shadow: 0px 0px 34px 2px rgba(0,0,0,0.75);
+            display: flex;
+            justify-content: space-between;
             .eName{
-                color: #C3F73A;
+                color: #2490E9;
                 font-size: 20px;
                 margin-left: 15px;
             }
@@ -136,16 +160,25 @@ export default {
                 color: #FFFCF2;
                 margin-left: 15px;
             }
+            .smallX{
+                color: #2490E9;
+                font-size: 23px;
+                cursor: pointer;
+
+
+            }
 
 
         }
     }
-    .createButton{
-        margin-top: 30px;
-        background: #C3F73A;
+    #createButton{
+        display: block;
+        margin-top: 90px;
+        background: #2490E9;
         color: #fff;
         border-radius: 20px;
-        padding: 5px 20px;
+        padding: 10px 20px;
+        
         
     }
 }

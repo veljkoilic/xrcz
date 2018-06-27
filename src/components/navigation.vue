@@ -2,9 +2,9 @@
   <div class="navigation">
     <nav class="d-lg-block d-sm-none desknav">
       <ul class="container">
-        <li class="col-sm-12"> <router-link to="/"> <i class="fas fa-home"></i> </router-link></li>
-        <li class="col-sm-12"> <router-link to="/create-workout"><i class="fas fa-plus"></i></router-link> </li>
-        <li class="col-sm-12"> <router-link to="/select-workout"><i class="fas fa-play"></i></router-link></li>
+        <li> <router-link class="col-sm-12" to="/"> <i class="fas fa-home"></i> </router-link></li>
+        <li> <router-link class="col-sm-12" to="/create-workout"><i class="fas fa-plus"></i></router-link> </li>
+        <li> <router-link class="col-sm-12" to="/select-workout"><i class="fas fa-play"></i></router-link></li>
       </ul>
     </nav>
 
@@ -70,14 +70,17 @@ export default {
       li{
         text-align: center;
         display: block;
-        padding: 25px 0 25px 0;
         margin: 0 auto 0 auto;
+                  padding: 25px 0 25px 0;
+
         &:hover{
           background: darken(#333545,3)
 
         }
         a{
           color: #fff;
+          padding: 25px 25px 25px 25px;
+
         }
       }
     }
@@ -90,17 +93,21 @@ export default {
       padding: 0;
       margin: 0;
       list-style-type: none;
+                
+
       li{
         text-align: center;
         display: block;
-        padding: 25px 0 25px 0;
         margin: 0 auto 0 auto;
+        padding: 25px 0 25px 0;
         &:hover{
           background: darken(#333545,3)
 
         }
         a{
           color: #fff;
+          padding: 25px 0 25px 0;
+
         }
       }
     }
@@ -132,9 +139,7 @@ nav.active .menu-container {
   list-style: none;
 }
 
-.menu-item{
-  padding: .5rem 0;
-}
+
 
 .menu-link{
   color: #fff;

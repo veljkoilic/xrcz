@@ -1,15 +1,5 @@
 <template>
   <div class="selectWorkout">
-      <!-- <h1>SELECT A WORKOUT</h1>
-      <ul v-bind:key="plan.key"
-       v-for="plan in workoutList"
-       @click="startWorkout(plan)">
-            <li v-bind:key="workout.name"
-            v-for="workout in plan">
-            {{workout.name}} - {{workout.sets}} sets {{workout.reps}} reps
-            
-            </li>
-        </ul> -->
         <h1>Select Your workout plan</h1>
         <div id="accordion container-fluid">
             <div class="card col-sm-6" v-bind:key="plan.name" v-for="plan in workoutList">
@@ -35,14 +25,34 @@
 <script>
 export default {
   name: 'selectWorkout',
-  props: {
-      workoutList: Array
-    },
+
     data(){
         return{
-            showCollapsed: true
+            showCollapsed: true,
+            workoutList: [
+                [
+              {workoutName: "My workout", name:"Push-ups", sets: 3, reps: 5, active: false},
+              {workoutName: "My workout", name:"Crunches", sets: 2, reps: 15, active: false},
+              {workoutName: "My workout", name:"Squats", sets: 4, reps: 5, active: false}
+            ]
+            ]
         }
     },
+    mounted(){
+        window.EventBus.$on('workoutCreated', workouts => {
+        this.workoutList.push(workouts);
+        console.log(workouts);
+        console.log(this.workoutList);
+               
+        });
+        console.log(this.workoutList);
+
+
+    },
+
+
+
+
     methods:{
         startWorkout(plan){
             window.EventBus.$emit('workoutStarted', plan);
@@ -60,9 +70,8 @@ export default {
                 return
             }
             this.showCollapsed = false;
-        }            
+        }  
     }
-    
 }
 </script>
 
@@ -99,6 +108,68 @@ body{
         box-shadow: 0px 0px 34px 2px rgba(0,0,0,0.75);
     }
       
+    //     this.changeButtonToPause(this.WorkoutCountdown)
+    //   var i = 0;   
+    //   var originalReps = this.workoutPlan[i].reps  
+
+    //   const WorkoutCountdown = setInterval(()=> {
+    //     if(i < this.workoutPlan.length){
+    //       this.workoutPlan[i].active = true;
+    //       if(this.workoutPlan[i].reps > 0){
+    //         this.workoutPlan[i].reps--;
+
+    //       }
+
+    //       if(this.workoutPlan[i].reps == 0){
+    //         if(this.workoutPlan[i].sets == 0){
+    //           this.workoutPlan[i].active = false;
+    //           i++;         
+    //           originalReps = this.workoutPlan[i].reps   
+              
+    //         }
+    //         if(this.workoutPlan[i].sets > 0){ 
+    //           this.workoutPlan[i].sets --;
+    //           this.workoutPlan[i].reps = originalReps;
+
+    //         }
+
+    //       }
+    //     }
+        // if(i == this.workoutPlan.length){
+        //   this.workoutDoneMSG = "WORKOUT COMPLETED";
+        //   clearInterval(WorkoutCountdown);
+          
+
+        // }
+    //   },2000);
+    // },
+    // changeButtonToPause(WorkoutCountdown){
+    //     if(this.buttonClicked == true){
+    //         this.buttonClicked = false;
+    //         clearInterval(WorkoutCountdown);
+    //         return
+    //     }
+    //     this.buttonClicked = true;
+
+    // }   
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 }
 .card-body{

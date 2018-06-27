@@ -8,7 +8,7 @@
         </li>
       </ul>
       <h1 v-text="workoutDoneMSG"></h1>
-      <button @click="clickToStart()"><i class="fa" :class="[{ 'fa-stop': buttonClicked }, 'fa-play']"></i></button>
+      <button @click="clickToStart()"><i class="fa" :class="[{'fa-stop': buttonClicked }, 'fa-play']"></i></button>
   </div>
 </template>
 
@@ -17,61 +17,96 @@ export default {
 
   name: 'doWorkout',
   props:{
-    workoutPlan : Array 
+    // workoutPlan : Array 
   },
   data(){
     return{
       workoutDoneMSG : '',
-      buttonClicked: false
+      buttonClicked: false,
+      workoutPlan:[
+              {workoutName: "My workout", name:"Push-ups", sets: 7, reps: 25, active: false},
+              {workoutName: "My workout", name:"Crunches", sets: 8, reps: 15, active: false},
+              {workoutName: "My workout", name:"Squats", sets: 6, reps: 35, active: false}
+            ],
+      i:0,
+      paused:true
 
     }
   },  
   methods:{
     clickToStart(){
-        this.changeButtonToPause(this.WorkoutCountdown)
-      var i = 0;   
-      var originalReps = this.workoutPlan[i].reps  
+      if(this.buttonClicked == true){
+        this.buttonClicked = false;
+        console.log(this.buttonClicked)
+      }else{
+              this.buttonClicked = true;
+      }
+      this.i = 0;   
+      var originalReps = this.workoutPlan[this.i].reps;
 
-      const WorkoutCountdown = setInterval(()=> {
-        if(i < this.workoutPlan.length){
-          this.workoutPlan[i].active = true;
-          if(this.workoutPlan[i].reps > 0){
-            this.workoutPlan[i].reps--;
+      if(this.paused == false){
+        this.paused = true;
+      }else{
+        this.paused = false;
 
-          }
-
-          if(this.workoutPlan[i].reps == 0){
-            if(this.workoutPlan[i].sets == 0){
-              this.workoutPlan[i].active = false;
-              i++;         
-              originalReps = this.workoutPlan[i].reps   
-              
-            }
-            if(this.workoutPlan[i].sets > 0){ 
-              this.workoutPlan[i].sets --;
-              this.workoutPlan[i].reps = originalReps;
-
-            }
-
-          }
-        }
-        if(i == this.workoutPlan.length){
-          this.workoutDoneMSG = "WORKOUT COMPLETED";
-          clearInterval(WorkoutCountdown);
-          
-
-        }
-      },2000);
-    },
-    changeButtonToPause(WorkoutCountdown){
-        if(this.buttonClicked == true){
-            this.buttonClicked = false;
+      }
+          if(this.paused == true){
             clearInterval(WorkoutCountdown);
             return
+          }
+
+        clearInterval(WorkoutCountdown);
+        const WorkoutCountdown = setInterval(()=> {
+          if(this.paused == false){
+            this.startCountdown(originalReps);
+          }
+
+          if(this.i == this.workoutPlan.length){
+            this.workoutDoneMSG = "WORKOUT COMPLETED";
+            clearInterval();
+          
+          }
+        },500);
+      
+
+    },
+    startCountdown(originalReps){
+      if(this.i < this.workoutPlan.length){
+        this.workoutPlan[this.i].active = true;
+        if(this.workoutPlan[this.i].reps > 0){
+          this.decreaseReps();
         }
-        this.buttonClicked = true;
+        if(this.workoutPlan[this.i].reps == 0){
+          if(this.workoutPlan[this.i].sets == 1){
+            this.switchExercise(originalReps);
+
+          }
+          if(this.workoutPlan[this.i].sets > 0){ 
+            this.decreaseSets(originalReps)
+
+          }
+        }
+      }      
+    },
+
+    decreaseReps(){
+      this.workoutPlan[this.i].reps--;
+      
+    },
+    switchExercise(originalReps){
+      this.workoutPlan[this.i].active = false;
+      this.i++;         
+      originalReps = this.workoutPlan[this.i].reps;
+      return originalReps;  
+    },
+    decreaseSets(originalReps){
+      this.workoutPlan[this.i].sets --;
+      this.workoutPlan[this.i].reps = originalReps;
+      return this.workoutPlan[this.i].reps;
 
     }
+
+
   }
 }
 </script>
@@ -84,6 +119,8 @@ export default {
     width: calc(100vw - 75px);
     height: calc(100vh - 60px);
     background: #333545;
+    display: flex;
+    justify-content: center;
   h1{
     color:green;
     position: absolute;
@@ -116,8 +153,7 @@ export default {
   button{
     position: absolute;
     bottom: 200px;
-    left: 50%;
-    transform: translateX(-50%);
+    left: 51%;
     color: #fff;
     border: none;
     font-size: 50px;

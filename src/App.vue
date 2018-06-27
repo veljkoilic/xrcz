@@ -2,7 +2,7 @@
   <div id="app">
     <app-header></app-header>
     <navigation></navigation>
-    <router-view :workout-list='workoutList' :workoutPlan='plan'></router-view>
+    <router-view :workoutPlan='plan'></router-view>
   </div>
   
 </template>
@@ -30,17 +30,12 @@ export default {
   },
     data(){
     return{
-      workoutList: [],
       plan:[]
 
     }
   },  
   mounted(){
-      window.EventBus.$on('workoutCreated', (workouts) => {
-          this.workoutList.push(workouts);
 
-        
-      });
       window.EventBus.$on('workoutStarted', (plan) => {
       this.plan = plan;
       
