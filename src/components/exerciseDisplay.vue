@@ -30,15 +30,15 @@ export default {
   data(){
     return{
       showCollapsed: false
-
+  
 
     }
   },
     methods:{
         startWorkout(plan){
-            var plan = plan;
+            var planEmit = plan;
             setTimeout(function() {
-                window.EventBus.$emit('workoutStarted', plan);
+                window.EventBus.$emit('workoutStarted', planEmit);
             }, 1);
             this.$router.push({path:"/do-workout"});
             
@@ -54,7 +54,7 @@ export default {
                 return
             }
             this.showCollapsed = false;
-        }  
+        }
     }
 }
 

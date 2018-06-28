@@ -35,7 +35,6 @@ export default {
     clickToStart(){
       if(this.buttonClicked == true){
         this.buttonClicked = false;
-        console.log(this.buttonClicked)
       }else{
               this.buttonClicked = true;
       }
@@ -120,13 +119,11 @@ export default {
     height: calc(100vh - 60px);
     background: #333545;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+
   h1{
     color:green;
-    position: absolute;
-    left: 50%;
-    top: 30%;
-    transform: translateX(-50%);
     font-size: 60px;
   }
   ul{
@@ -151,10 +148,8 @@ export default {
     }
   }
   button{
-    position: absolute;
-    bottom: 200px;
-    left: 51%;
-    color: #fff;
+    height: 10px;
+    color: #2490E9;
     border: none;
     font-size: 50px;
     background: transparent;

@@ -20,20 +20,22 @@ export default {
         }
     },
     beforeUpdate(){
+        // eslint-disable-next-line
         agCookie.create("workouts",JSON.stringify(this.workoutList),30);
 
     },
     mounted(){
-        this.workoutList = JSON.parse(agCookie.read('workouts'))
-        EventBus.$on('workoutCreated', workouts => {
+        // eslint-disable-next-line
+        this.workoutList = JSON.parse(agCookie.read('workouts'));
+        window.EventBus.$on('workoutCreated', workouts => {
         this.workoutList.push(workouts);
 
         });
         
     },
     beforeDestroy(){
+        // eslint-disable-next-line
         agCookie.create("workouts",JSON.stringify(this.workoutList),30);
-        console.log(agCookie.read('workouts'));
     }
 }
 </script>

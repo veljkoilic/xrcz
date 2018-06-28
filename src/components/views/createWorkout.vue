@@ -7,14 +7,14 @@
           <input class="col-md-3 col-sm-10" type="text" placeholder="Exercise name" v-model="newName">
           <input class="col-md-1 col-sm-10" type="number" placeholder="Sets" v-model="newSets">
           <input class="col-md-1 col-sm-10" type="number" placeholder="Reps" v-model="newReps">
-          <button class="col-md-2 fas fa-plus-circle" @click="validateExerciseAndAdd()"></button>
+          <button class="col-md-2  col-sm-10 fas fa-plus-circle" @click="validateExerciseAndAdd()"></button>
       </div>
 
     <ul class="container-fluid">
         <create-card :workouts="workouts"></create-card>
     </ul>
 
-    <button id="createButton" class="col-2 offset-5" @click="workoutCreate()">Create Workout!</button>
+    <button id="createButton"  @click="workoutCreate()">Create Workout!</button>
     
   </div>
 </template>
@@ -30,9 +30,9 @@ export default {
     data(){
         return{
             workouts:[
-                {workoutName: "My workout", name:"Push-ups", sets: 3, reps: 5, active: false},
-                {workoutName: "My workout", name:"Crunches", sets: 2, reps: 15, active: false},
-                {workoutName: "My workout", name:"Squats", sets: 4, reps: 5, active: false}
+                {workoutName: "My workout", name:"Push-ups", sets: 3, reps: 5, active: false, favorite: true},
+                {workoutName: "My workout", name:"Crunches", sets: 2, reps: 15, active: false, favorite: false},
+                {workoutName: "My workout", name:"Squats", sets: 4, reps: 5, active: false, favorite: false}
             ],
             newWorkoutName: "",
             newName: "",
@@ -53,7 +53,7 @@ export default {
             }
             
             else{
-            this.workouts.push({workoutName: this.newWorkoutName, name: this.newName, sets: parseInt(this.newSets), reps: parseInt(this.newReps), active: false});
+            this.workouts.push({workoutName: this.newWorkoutName, name: this.newName, sets: parseInt(this.newSets), reps: parseInt(this.newReps), active: false, favorite:false});
             this.newName = ""
             this.newSets = 0    
             this.newReps = 0
@@ -62,7 +62,7 @@ export default {
         workoutCreate(){
             var w = this.workouts;
             setTimeout(function(){
-                EventBus.$emit("workoutCreated", w);
+                window.EventBus.$emit("workoutCreated", w);
                 this.workouts = [];
             },1)
             
@@ -148,11 +148,12 @@ export default {
     #createButton{
         font-size: 20px;
         display: block;
-        margin-top: 90px;
+        margin: 90px auto 0 auto;
         background: #2490E9;
         color: #fff;
         border-radius: 20px;
         padding: 10px 20px;
+        margin-bottom: 100px;
         
         
     }

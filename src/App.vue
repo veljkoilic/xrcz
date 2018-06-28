@@ -42,7 +42,12 @@ export default {
 #app{
   font-family: 'Montserrat', sans-serif;
   overflow-x: hidden;
-  
+  button{
+    &:hover{
+      background-color: darken($color: #333545, $amount:8);
+      cursor: pointer;
+    }
+  }
 
 }
 
