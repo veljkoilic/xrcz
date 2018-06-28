@@ -9,6 +9,8 @@
       </ul>
       <h1 v-text="workoutDoneMSG"></h1>
       <button @click="clickToStart()"><i class="fa" :class="[{'fa-stop': buttonClicked }, 'fa-play']"></i></button>
+      <br>
+      <!-- <button @click="pauseIt()">Pause</button> -->
   </div>
 </template>
 
@@ -22,7 +24,7 @@ export default {
       buttonClicked: false,
       workoutPlan:[],
       i:0,
-      paused:true
+      paused:false
 
     }
   },  mounted(){
@@ -32,30 +34,17 @@ export default {
     });
   },  
   methods:{
+    // Napravi start dugme koje na klik nestaje a pojavljuje se play pause stop dugme koji menjaju, sacuvaj ceo data pre
+    // intervala, i onda na kraju clearInterval i reset na originalne vrednosti.
+    // pauseIt(){
+    //   this.paused = true;
+    // },
     clickToStart(){
-      if(this.buttonClicked == true){
-        this.buttonClicked = false;
-      }else{
-              this.buttonClicked = true;
-      }
-
+      // this.paused = false;
       this.i = 0;   
       var originalReps = this.workoutPlan[this.i].reps;
-
-      if(this.paused == false){
-        this.paused = true;
-      }else{
-        this.paused = false;
-
-      }
-
-      if(this.paused == true){
-        clearInterval(WorkoutCountdown);
-        return
-      }
-
-      clearInterval(WorkoutCountdown);
       const WorkoutCountdown = setInterval(()=> {
+        console.log(this.paused);
         if(this.paused == false){
           this.startCountdown(originalReps);
         }
