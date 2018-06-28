@@ -16,22 +16,20 @@
 export default {
 
   name: 'doWorkout',
-  props:{
-    // workoutPlan : Array 
-  },
   data(){
     return{
       workoutDoneMSG : '',
       buttonClicked: false,
-      workoutPlan:[
-              {workoutName: "My workout", name:"Push-ups", sets: 7, reps: 25, active: false},
-              {workoutName: "My workout", name:"Crunches", sets: 8, reps: 15, active: false},
-              {workoutName: "My workout", name:"Squats", sets: 6, reps: 35, active: false}
-            ],
+      workoutPlan:[],
       i:0,
       paused:true
 
     }
+  },  mounted(){
+      window.EventBus.$on('workoutStarted', (plan) => {
+      this.workoutPlan = plan;
+      
+    });
   },  
   methods:{
     clickToStart(){
@@ -41,6 +39,7 @@ export default {
       }else{
               this.buttonClicked = true;
       }
+
       this.i = 0;   
       var originalReps = this.workoutPlan[this.i].reps;
 
@@ -50,23 +49,24 @@ export default {
         this.paused = false;
 
       }
-          if(this.paused == true){
-            clearInterval(WorkoutCountdown);
-            return
-          }
 
+      if(this.paused == true){
         clearInterval(WorkoutCountdown);
-        const WorkoutCountdown = setInterval(()=> {
-          if(this.paused == false){
-            this.startCountdown(originalReps);
-          }
+        return
+      }
 
-          if(this.i == this.workoutPlan.length){
-            this.workoutDoneMSG = "WORKOUT COMPLETED";
-            clearInterval();
-          
-          }
-        },500);
+      clearInterval(WorkoutCountdown);
+      const WorkoutCountdown = setInterval(()=> {
+        if(this.paused == false){
+          this.startCountdown(originalReps);
+        }
+
+        if(this.i == this.workoutPlan.length){
+          this.workoutDoneMSG = "WORKOUT COMPLETED";
+          clearInterval();
+        
+        }
+      },1500);
       
 
     },

@@ -1,76 +1,39 @@
 <template>
   <div class="selectWorkout">
         <h1>Select Your workout plan</h1>
-        <div id="accordion container-fluid">
-            <div class="card col-sm-6" v-bind:key="plan.name" v-for="plan in workoutList">
-                <div class="card-header" id="headingOne">
-                <h5 class="mb-0">
-                    <button @click="collapse()" class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                    {{plan[0].workoutName}}
-                    </button>
-                    <button @click="startWorkout(plan)">Start <i class="fa fa-play"></i></button>
-                </h5>
-                </div>
-
-                <div id="collapseOne" class="collapse" :class="{show:showCollapsed}" aria-labelledby="headingOne" data-parent="#accordion">
-                <div class="card-body" v-bind:key="workout.name" v-for="workout in plan">
-                    <span>{{workout.name}}</span> : {{workout.sets}} sets, {{workout.reps}} reps
-                </div>
-                </div>
-            </div>
-        </div>
+        <exercise-display v-bind:key="plan.name" v-for="plan in workoutList" :plan = "plan"></exercise-display>
   </div>
 </template>
 
 <script>
+import exerciseDisplay from "../exerciseDisplay.vue";
+
 export default {
   name: 'selectWorkout',
+  components:{
+      exerciseDisplay
+  },
 
     data(){
         return{
-            showCollapsed: true,
-            workoutList: [
-                [
-              {workoutName: "My workout", name:"Push-ups", sets: 3, reps: 5, active: false},
-              {workoutName: "My workout", name:"Crunches", sets: 2, reps: 15, active: false},
-              {workoutName: "My workout", name:"Squats", sets: 4, reps: 5, active: false}
-            ]
-            ]
+            workoutList: []
         }
     },
-    mounted(){
-        window.EventBus.$on('workoutCreated', workouts => {
-        this.workoutList.push(workouts);
-        console.log(workouts);
-        console.log(this.workoutList);
-               
-        });
-        console.log(this.workoutList);
-
+    beforeUpdate(){
+        agCookie.create("workouts",JSON.stringify(this.workoutList),30);
 
     },
+    mounted(){
+        this.workoutList = JSON.parse(agCookie.read('workouts'))
+        EventBus.$on('workoutCreated', workouts => {
+        this.workoutList.push(workouts);
 
-
-
-
-    methods:{
-        startWorkout(plan){
-            window.EventBus.$emit('workoutStarted', plan);
-            this.$router.push({path:"/do-workout"});
-            
-
-        },
-        removePlan(plan){
-            var index = this.workoutList.indexOf(plan);
-            this.workoutList.splice(index, 1);
-        },
-        collapse(){
-            if(this.showCollapsed == false){
-                this.showCollapsed = true;
-                return
-            }
-            this.showCollapsed = false;
-        }  
+        });
+        
+    },
+    beforeDestroy(){
+        agCookie.create("workouts",JSON.stringify(this.workoutList),30);
+        console.log(agCookie.read('workouts'));
     }
 }
 </script>

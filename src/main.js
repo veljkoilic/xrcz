@@ -26,7 +26,7 @@ import router from './routes';
 Vue.use(VueRouter);
 
 Vue.config.productionTip = false
-
+// Event dispatcher
 window.EventBus = new Vue();
 
 new Vue({

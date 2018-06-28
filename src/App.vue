@@ -2,7 +2,7 @@
   <div id="app">
     <app-header></app-header>
     <navigation></navigation>
-    <router-view :workoutPlan='plan'></router-view>
+    <router-view></router-view>
   </div>
   
 </template>
@@ -34,16 +34,6 @@ export default {
 
     }
   },  
-  mounted(){
-
-      window.EventBus.$on('workoutStarted', (plan) => {
-      this.plan = plan;
-      
-    });
-  }
-
-
-
 }
 </script>
 
