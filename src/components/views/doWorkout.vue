@@ -2,20 +2,20 @@
   <div class="doWorkout">
       <h1 v-if="workoutPlan != ''">{{workoutPlan[0].workoutName}}</h1>
       <h1 v-else>Please select a workout</h1>
-    <ul>
+
+      <ul>
         <li v-bind:key="exercise.name
         " v-for="exercise in workoutPlan"
         v-if="exercise.active == true">
-          <h1 v-if="!workoutPlan">P</h1>
         <span class="exerciseName">{{exercise.name}}</span>  <span class="number">{{exercise.reps}}</span> <span> REPS LEFT</span> <span class="number">{{exercise.sets}}</span> <span> SETS LEFT</span> 
         </li>
       </ul>
-      <h1 v-text="workoutDoneMSG"></h1>
+
+      <h1 class="completedWorkoutMessage" v-text="workoutDoneMSG"></h1>
       <button @click="clickToStart()" v-if="isStartButtonShown">Start Workout</button>
       <i v-if="arePlayStopButtonsShown"  
       v-bind:class="[pauseButtonClicked ? 'fa fa-play' : 'fas fa-pause']"
       @click="pauseWorkoutCountDown"></i>
-      <br>
   </div>
 </template>
 
@@ -45,8 +45,6 @@ export default {
       this.paused = true;
 },  
   methods:{
-    // Napravi start dugme koje na klik nestaje a pojavljuje se play pause stop dugme koji menjaju, sacuvaj ceo data pre
-    // intervala, i onda na kraju clearInterval i reset na originalne vrednosti.
     pauseWorkoutCountDown(){
       if(this.paused == true){
         this.paused = false;
@@ -118,7 +116,6 @@ export default {
 }
 </script>
  
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style  scoped lang='scss'>
 .doWorkout{
     margin-top: 60px;
@@ -131,8 +128,12 @@ export default {
     align-items: center;
 
   h1{
-    color:green;
+    color:#fff;
     font-size: 60px;
+    margin-top: 20px;
+  }
+  .completedWorkoutMessage{
+    color: green;
   }
   ul{
     color: #fff;
@@ -162,10 +163,11 @@ export default {
     font-size: 30px;
     color: #fff;
     padding: 10px;
+    position: absolute;
+    top: 50%;
   }
   i{
-    position: absolute;
-    bottom: 250px;
+    margin-top: 50px;
     color:#fff;
     font-size: 40px;
   }

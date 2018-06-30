@@ -54,7 +54,6 @@ export default {
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style   lang='scss'>
 body{
     
@@ -65,7 +64,7 @@ body{
 }
 .selectWorkout{
     background: #333545;
-    overflow-y: scroll; //Staviti kad provalis kako se hide scrollbar
+    overflow-y: scroll;
     height: 650px;
     color: #fff;
     margin-top: 60px;
@@ -90,7 +89,7 @@ body{
 .card-body{
     color:#fff;
     font-size: 20px;
-    span{
+    .nameOfWorkout{
         color: #2490E9;        
     }
 }

@@ -18,9 +18,9 @@ export default {
   },
   methods:{
     removeExercise(workout){
-    var index = this.workouts.indexOf(workout);
-    this.workouts.splice(index, 1);
-  }
+        var index = this.workouts.indexOf(workout);
+        this.workouts.splice(index, 1);
+    }
   }
 
 }

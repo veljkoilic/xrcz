@@ -9,14 +9,13 @@
                       {{plan[0].workoutName}}
                       </button>
                       <button @click="startWorkout(plan)">Start <i class="fa fa-play"></i></button>
-                      
                   </h5>
                   </div>
 
                   <div id="collapseOne" class="collapse" :class="{show:showCollapsed}" aria-labelledby="headingOne" data-parent="#accordion">
-                  <div class="card-body" v-bind:key="workout.name" v-for="workout in plan">
-                      <span>{{workout.name}}</span> : {{workout.sets}} sets, {{workout.reps}} reps
-                  </div>
+                    <div class="card-body" v-bind:key="workout.name" v-for="workout in plan">
+                        <span class="nameOfWorkout">{{workout.name}}: </span>  <span>{{workout.sets}} sets</span> <span>{{workout.reps}} reps</span>
+                    </div>
                   </div>
               </div>
           </div>
@@ -43,9 +42,8 @@ export default {
                 window.EventBus.$emit('workoutStarted', planEmit);
             }, 1);
             this.$router.push({path:"/do-workout"});
-            
-
         },
+
         collapse(){
             if(this.showCollapsed == false){
                 this.showCollapsed = true;
@@ -53,6 +51,7 @@ export default {
             }
             this.showCollapsed = false;
         },
+        
         removeWorkoutPlanEvent(){
           this.$emit('planRemoved');
 
@@ -73,8 +72,12 @@ export default {
   cursor: pointer;
 }
 .card-body{
-    color:#000;
-    
+    color:#fff;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    span{
+      text-align: center;
+    }    
 }
 
 </style>

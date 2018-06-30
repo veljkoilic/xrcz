@@ -24,16 +24,12 @@ import createCard from '../createCard.vue'
 export default {
     components:{
         createCard
-
     },
     name: 'createWorkout',
+
     data(){
         return{
-            workouts:[
-                {workoutName: "My workout", name:"Push-ups", sets: 3, reps: 5, active: false, favorite: true},
-                {workoutName: "My workout", name:"Crunches", sets: 2, reps: 15, active: false, favorite: false},
-                {workoutName: "My workout", name:"Squats", sets: 4, reps: 5, active: false, favorite: false}
-            ],
+            workouts:[],
             newWorkoutName: "",
             newName: "",
             newSets: "",
@@ -41,6 +37,7 @@ export default {
             
         }
     },
+
     methods:{
         validateExerciseAndAdd(){
             if(this.newName == "" || this.newSets == 0 || this.newReps == 0){
@@ -59,6 +56,7 @@ export default {
             this.newReps = 0
             }
         },
+
         workoutCreate(){
             var workoutData = this.workouts;
             setTimeout(function(){
@@ -68,7 +66,6 @@ export default {
             
             this.$router.push({path:"/select-workout"})
         }
-
     }
 }
 </script>
