@@ -1,7 +1,7 @@
 <template>
   <div class="selectWorkout">
         <h1>Select Your workout plan</h1>
-        <exercise-display v-bind:key="plan.name" v-for="plan in workoutList" :plan = "plan"></exercise-display>
+        <exercise-display @planRemoved="removePlan(plan)" v-bind:key="plan.name" v-for="plan in workoutList" :plan = "plan"></exercise-display>
   </div>
 </template>
 
@@ -19,14 +19,27 @@ export default {
             workoutList: []
         }
     },
+    methods:{
+        removePlan(plan){
+            var index = this.workoutList.indexOf(plan);
+            this.workoutList.splice(index, 1);
+        }
+    },
     beforeUpdate(){
-        // eslint-disable-next-line
-        agCookie.create("workouts",JSON.stringify(this.workoutList),30);
+        if(this.workoutList != []){
+            // eslint-disable-next-line
+            agCookie.create("workouts",JSON.stringify(this.workoutList),30);
+
+        }
 
     },
     mounted(){
         // eslint-disable-next-line
-        this.workoutList = JSON.parse(agCookie.read('workouts'));
+        if(agCookie.read('workouts') != null){
+            // eslint-disable-next-line
+            this.workoutList = JSON.parse(agCookie.read('workouts'));
+
+        }
         window.EventBus.$on('workoutCreated', workouts => {
         this.workoutList.push(workouts);
 
@@ -34,8 +47,9 @@ export default {
         
     },
     beforeDestroy(){
-        // eslint-disable-next-line
-        agCookie.create("workouts",JSON.stringify(this.workoutList),30);
+            // eslint-disable-next-line
+            agCookie.create("workouts",JSON.stringify(this.workoutList),30);
+       
     }
 }
 </script>
@@ -72,70 +86,6 @@ body{
         -moz-box-shadow: 0px 0px 34px 2px rgba(0,0,0,0.75);
         box-shadow: 0px 0px 34px 2px rgba(0,0,0,0.75);
     }
-      
-    //     this.changeButtonToPause(this.WorkoutCountdown)
-    //   var i = 0;   
-    //   var originalReps = this.workoutPlan[i].reps  
-
-    //   const WorkoutCountdown = setInterval(()=> {
-    //     if(i < this.workoutPlan.length){
-    //       this.workoutPlan[i].active = true;
-    //       if(this.workoutPlan[i].reps > 0){
-    //         this.workoutPlan[i].reps--;
-
-    //       }
-
-    //       if(this.workoutPlan[i].reps == 0){
-    //         if(this.workoutPlan[i].sets == 0){
-    //           this.workoutPlan[i].active = false;
-    //           i++;         
-    //           originalReps = this.workoutPlan[i].reps   
-              
-    //         }
-    //         if(this.workoutPlan[i].sets > 0){ 
-    //           this.workoutPlan[i].sets --;
-    //           this.workoutPlan[i].reps = originalReps;
-
-    //         }
-
-    //       }
-    //     }
-        // if(i == this.workoutPlan.length){
-        //   this.workoutDoneMSG = "WORKOUT COMPLETED";
-        //   clearInterval(WorkoutCountdown);
-          
-
-        // }
-    //   },2000);
-    // },
-    // changeButtonToPause(WorkoutCountdown){
-    //     if(this.buttonClicked == true){
-    //         this.buttonClicked = false;
-    //         clearInterval(WorkoutCountdown);
-    //         return
-    //     }
-    //     this.buttonClicked = true;
-
-    // }   
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }
 .card-body{
     color:#fff;

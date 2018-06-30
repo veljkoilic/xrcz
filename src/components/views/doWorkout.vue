@@ -1,16 +1,21 @@
 <template>
   <div class="doWorkout">
-    <ul >
+      <h1 v-if="workoutPlan != ''">{{workoutPlan[0].workoutName}}</h1>
+      <h1 v-else>Please select a workout</h1>
+    <ul>
         <li v-bind:key="exercise.name
         " v-for="exercise in workoutPlan"
         v-if="exercise.active == true">
+          <h1 v-if="!workoutPlan">P</h1>
         <span class="exerciseName">{{exercise.name}}</span>  <span class="number">{{exercise.reps}}</span> <span> REPS LEFT</span> <span class="number">{{exercise.sets}}</span> <span> SETS LEFT</span> 
         </li>
       </ul>
       <h1 v-text="workoutDoneMSG"></h1>
-      <button @click="clickToStart()"><i class="fa" :class="[{'fa-stop': buttonClicked }, 'fa-play']"></i></button>
+      <button @click="clickToStart()" v-if="isStartButtonShown">Start Workout</button>
+      <i v-if="arePlayStopButtonsShown"  
+      v-bind:class="[pauseButtonClicked ? 'fa fa-play' : 'fas fa-pause']"
+      @click="pauseWorkoutCountDown"></i>
       <br>
-      <!-- <button @click="pauseIt()">Pause</button> -->
   </div>
 </template>
 
@@ -21,10 +26,12 @@ export default {
   data(){
     return{
       workoutDoneMSG : '',
-      buttonClicked: false,
+      pauseButtonClicked: false,
       workoutPlan:[],
       i:0,
-      paused:false
+      paused:false,
+      isStartButtonShown: true,
+      arePlayStopButtonsShown:false
 
     }
   },  mounted(){
@@ -32,25 +39,37 @@ export default {
       this.workoutPlan = plan;
       
     });
-  },  
+  },
+  beforeDestroy(){
+    this.workoutPlan = [];
+      this.paused = true;
+},  
   methods:{
     // Napravi start dugme koje na klik nestaje a pojavljuje se play pause stop dugme koji menjaju, sacuvaj ceo data pre
     // intervala, i onda na kraju clearInterval i reset na originalne vrednosti.
-    // pauseIt(){
-    //   this.paused = true;
-    // },
+    pauseWorkoutCountDown(){
+      if(this.paused == true){
+        this.paused = false;
+        this.pauseButtonClicked = false;
+      }else{
+        this.paused = true;
+        this.pauseButtonClicked = true;
+
+      }
+    },
     clickToStart(){
-      // this.paused = false;
+      this.paused = false;
+      this.isStartButtonShown = false;
+      this.arePlayStopButtonsShown = true;
       this.i = 0;   
       var originalReps = this.workoutPlan[this.i].reps;
-      const WorkoutCountdown = setInterval(()=> {
-        console.log(this.paused);
+      setInterval(()=> {
         if(this.paused == false){
           this.startCountdown(originalReps);
         }
 
         if(this.i == this.workoutPlan.length){
-          this.workoutDoneMSG = "WORKOUT COMPLETED";
+          this.workoutDoneMSG = "IS COMPLETED";
           clearInterval();
         
         }
@@ -137,11 +156,18 @@ export default {
     }
   }
   button{
-    height: 10px;
-    color: #2490E9;
+    background: #2490E9;
     border: none;
-    font-size: 50px;
-    background: transparent;
+    border-radius: 20px;
+    font-size: 30px;
+    color: #fff;
+    padding: 10px;
+  }
+  i{
+    position: absolute;
+    bottom: 250px;
+    color:#fff;
+    font-size: 40px;
   }
 }
 @media only screen and (max-width: 991px) {

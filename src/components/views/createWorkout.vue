@@ -3,10 +3,10 @@
       <h1>CREATE A WORKOUT</h1>
 
       <div class="creatorExercise col-10 offset-1">
-          <input class="col-md-3 offset-sm- col-sm-10" type="text" placeholder="Workout name" v-model="newWorkoutName">
-          <input class="col-md-3 col-sm-10" type="text" placeholder="Exercise name" v-model="newName">
-          <input class="col-md-1 col-sm-10" type="number" placeholder="Sets" v-model="newSets">
-          <input class="col-md-1 col-sm-10" type="number" placeholder="Reps" v-model="newReps">
+          <input class="col-md-10 offset-sm- col-sm-10" type="text" placeholder="Workout Plan name" v-model="newWorkoutName">
+          <input class="col-md-4 col-sm-10" type="text" placeholder="Exercise name" v-model="newName">
+          <input class="col-md-2 col-sm-10" type="number" placeholder="Sets" v-model="newSets">
+          <input class="col-md-2 col-sm-10" type="number" placeholder="Reps" v-model="newReps">
           <button class="col-md-2  col-sm-10 fas fa-plus-circle" @click="validateExerciseAndAdd()"></button>
       </div>
 
@@ -53,16 +53,16 @@ export default {
             }
             
             else{
-            this.workouts.push({workoutName: this.newWorkoutName, name: this.newName, sets: parseInt(this.newSets), reps: parseInt(this.newReps), active: false, favorite:false});
+            this.workouts.unshift({workoutName: this.newWorkoutName, name: this.newName, sets: parseInt(this.newSets), reps: parseInt(this.newReps), active: false, favorite:false});
             this.newName = ""
             this.newSets = 0    
             this.newReps = 0
             }
         },
         workoutCreate(){
-            var w = this.workouts;
+            var workoutData = this.workouts;
             setTimeout(function(){
-                window.EventBus.$emit("workoutCreated", w);
+                window.EventBus.$emit("workoutCreated", workoutData);
                 this.workouts = [];
             },1)
             

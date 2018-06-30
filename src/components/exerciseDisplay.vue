@@ -3,11 +3,13 @@
   <div id="accordion container-fluid">
               <div class="card col-sm-6">
                   <div class="card-header" id="headingOne">
+                  <i class="smallX far fa-times-circle" @click="removeWorkoutPlanEvent(plan)"></i>     
                   <h5 class="mb-0">
                       <button @click="collapse()" class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
                       {{plan[0].workoutName}}
                       </button>
                       <button @click="startWorkout(plan)">Start <i class="fa fa-play"></i></button>
+                      
                   </h5>
                   </div>
 
@@ -44,25 +46,35 @@ export default {
             
 
         },
-        removePlan(plan){
-            var index = this.workoutList.indexOf(plan);
-            this.workoutList.splice(index, 1);
-        },
         collapse(){
             if(this.showCollapsed == false){
                 this.showCollapsed = true;
                 return
             }
             this.showCollapsed = false;
+        },
+        removeWorkoutPlanEvent(){
+          this.$emit('planRemoved');
+
         }
+
     }
 }
 
 </script>
 
-<style lang='scss'>
+<style scoped lang='scss'>
+.smallX{
+  color: red;
+  position: absolute;
+  left: -35px;
+  top: 20px;
+  font-size: 20px;
+  cursor: pointer;
+}
 .card-body{
     color:#000;
+    
 }
 
 </style>
